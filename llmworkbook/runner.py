@@ -4,7 +4,7 @@ Runner module to handle the actual LLM call.
 
 from .config import LLMConfig
 from .utils import sync_to_async
-from .providers import call_llm_ollama, call_llm_openai
+from .providers import call_llm_ollama, call_llm_openai, call_llm_gpt4all
 
 
 class LLMRunner:
@@ -35,7 +35,7 @@ class LLMRunner:
         if provider == "openai":
             return await call_llm_openai(self, prompt)
         
-        if prompt == "ollama" :
+        if provider == "ollama" :
             # Check if 'url' is defined in self.config.options
             url = self.config.options.get("url")
 
@@ -44,6 +44,16 @@ class LLMRunner:
                 return await call_llm_ollama(self, prompt, url=url)
             else:
                 return await call_llm_ollama(self, prompt)
+          
+        if provider == "gpt4all" :
+            # Check if 'url' is defined in self.config.options
+            url = self.config.options.get("url")
+
+            # Call the function conditionally
+            if url:
+                return await call_llm_gpt4all(self, prompt, url=url)
+            else:
+                return await call_llm_gpt4all(self, prompt)
 
         raise NotImplementedError(f"Provider {provider} is not supported yet.")
 
