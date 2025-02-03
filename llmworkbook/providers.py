@@ -34,7 +34,8 @@ async def call_llm_openai(self, prompt: str) -> str:
     except (KeyError, IndexError):
         return str(completion)
 
-async def call_llm_ollama(self, prompt: str, url: Optional[str]= None) -> str:
+
+async def call_llm_ollama(self, prompt: str, url: Optional[str] = None) -> str:
     """
     Calls Ollama's completion/chat endpoint asynchronously.
 
@@ -58,13 +59,21 @@ async def call_llm_ollama(self, prompt: str, url: Optional[str]= None) -> str:
     payload = {
         "model": self.config.options.get("model", "default-model"),  # Required
         "prompt": str(messages),
-        "stream" : False,
+        "stream": False,
     }
 
     # Add all other valid options from self.config.options to the payload
     valid_options = [
-        "suffix", "images", "format", "options", "system", "template", 
-        "stream", "raw", "keep_alive", "context"
+        "suffix",
+        "images",
+        "format",
+        "options",
+        "system",
+        "template",
+        "stream",
+        "raw",
+        "keep_alive",
+        "context",
     ]
     for option in valid_options:
         if option in self.config.options:
@@ -81,7 +90,8 @@ async def call_llm_ollama(self, prompt: str, url: Optional[str]= None) -> str:
         except Exception as e:
             return f"Exception: {str(e)}"
 
-async def call_llm_gpt4all(self, prompt: str, url: Optional[str]= None) -> str:
+
+async def call_llm_gpt4all(self, prompt: str, url: Optional[str] = None) -> str:
     """
     Calls GPT4ALL's completion/chat endpoint asynchronously.
 
@@ -108,9 +118,7 @@ async def call_llm_gpt4all(self, prompt: str, url: Optional[str]= None) -> str:
     }
 
     # Add all other valid options from self.config.options to the payload
-    valid_options = [
-        "max_tokens", "temperature" 
-    ]
+    valid_options = ["max_tokens", "temperature"]
     for option in valid_options:
         if option in self.config.options:
             payload[option] = self.config.options[option]
@@ -118,10 +126,16 @@ async def call_llm_gpt4all(self, prompt: str, url: Optional[str]= None) -> str:
     print(payload)
     async with aiohttp.ClientSession() as session:
         try:
-            async with session.post(f"{url}/v1/chat/completions", json=payload) as response:
+            async with session.post(
+                f"{url}/v1/chat/completions", json=payload
+            ) as response:
                 if response.status == 200:
                     completion = await response.json()
-                    return completion.get("choices", [{}])[0].get("message", {}).get("content", "")
+                    return (
+                        completion.get("choices", [{}])[0]
+                        .get("message", {})
+                        .get("content", "")
+                    )
                 else:
                     return f"Error: {response.status}, {await response.text()}"
         except Exception as e:

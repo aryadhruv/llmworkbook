@@ -19,7 +19,6 @@ class LLMRunner:
         """
         self.config = config
 
-
     async def run(self, prompt: str) -> str:
         """
         Entry point for calling any LLM provider.
@@ -34,8 +33,8 @@ class LLMRunner:
 
         if provider == "openai":
             return await call_llm_openai(self, prompt)
-        
-        if provider == "ollama" :
+
+        if provider == "ollama":
             # Check if 'url' is defined in self.config.options
             url = self.config.options.get("url")
 
@@ -44,8 +43,8 @@ class LLMRunner:
                 return await call_llm_ollama(self, prompt, url=url)
             else:
                 return await call_llm_ollama(self, prompt)
-          
-        if provider == "gpt4all" :
+
+        if provider == "gpt4all":
             # Check if 'url' is defined in self.config.options
             url = self.config.options.get("url")
 

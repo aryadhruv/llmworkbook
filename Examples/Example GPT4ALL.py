@@ -8,6 +8,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+
 def main():
     # 1. Create a sample dataframe
     data = {
@@ -15,8 +16,8 @@ def main():
         "prompt_text": [
             "Explain Newton's first law in simple terms.",
             "Write a short poem about the moon.",
-            "Give me 3 tips for better time management."
-        ]
+            "Give me 3 tips for better time management.",
+        ],
     }
     df = pd.DataFrame(data)
 
@@ -27,10 +28,7 @@ def main():
         options={
             "url": "http://localhost:4891",
             "model": "Mistral Instruct",
-            "options": {
-                "max_tokens": 50,
-                "temperature" : 0.28
-            },
+            "options": {"max_tokens": 50, "temperature": 0.28},
         },
     )
 
@@ -40,9 +38,7 @@ def main():
 
     # 4. Add LLM responses to the df
     updated_df = integrator.add_llm_responses(
-        prompt_column="prompt_text",
-        response_column="llm_response",
-        async_mode=True
+        prompt_column="prompt_text", response_column="llm_response", async_mode=True
     )
 
     print("DataFrame with LLM responses:\n", updated_df)

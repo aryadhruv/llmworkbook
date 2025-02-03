@@ -7,6 +7,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+
 def main():
     """
     Example usage of WrapPromptList with a 1D list of prompts.
@@ -15,7 +16,7 @@ def main():
     prompts = [
         "Summarize the following review.",
         "Translate this text to English.",
-        "Provide a sentiment analysis of the input."
+        "Provide a sentiment analysis of the input.",
     ]
     wrapper = WrapPromptList(prompts)
     wrapped_df = wrapper.wrap()
@@ -37,12 +38,11 @@ def main():
 
     # 4. Add LLM responses to the DataFrame
     updated_df = integrator.add_llm_responses(
-        prompt_column="wrapped_output",
-        response_column="llm_response",
-        async_mode=True
+        prompt_column="wrapped_output", response_column="llm_response", async_mode=True
     )
 
     print("Updated DataFrame with LLM responses (Prompts):\n", updated_df)
+
 
 if __name__ == "__main__":
     main()
