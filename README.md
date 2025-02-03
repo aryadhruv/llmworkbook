@@ -39,6 +39,13 @@ Install the package from GitHub:
 These wrapper methods can handle popular data sources like Excel (xlsx), CSV, Pandas DataFrames, multi dimensional arrays.
 
 *See Examples for details. - [Github - Examples](https://github.com/aryadhruv/LLMWorkbook/tree/main/Examples)*
+
+### Providers Supported -
+* OpenAI
+* Ollama
+* GPT4ALL
+
+
 ---
 
 ### **1. Import the Package**
@@ -102,7 +109,7 @@ The CLI is installed automatically when you install `LLMWorkbook` via Poetry:
 poetry install
 ```
 
-Once installed, you can use the `llmwrap` command.
+Once installed, you can use the `llmWorkbook` command.
 
 #### **Available Commands**
 ```bash
@@ -137,10 +144,9 @@ This CLI allows you to quickly process data and validate your LLM connection wit
 
 ## **Future Roadmap**
 
-- Add support for more LLM providers (Azure OpenAI, Cohere, etc.).
+- Add support for more LLM providers (Antropic Claude, Google VertexAI, Cohere, Groq, MistralAI).
 - Add an interface frontend for low code applications.
 - Implement rate-limiting and token usage tracking.
-- Add streaming response handling.
 - Summarized history persisted across session to provide quick context for next session.
 
 
