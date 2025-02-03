@@ -144,7 +144,7 @@ This CLI allows you to quickly process data and validate your LLM connection wit
 
 ## **Future Roadmap**
 
-- Add support for more LLM providers (Antropic Claude, Google VertexAI, Cohere, Groq, MistralAI).
+- Add support for more LLM providers (Anthropic Claude, Google VertexAI, Cohere, Groq, MistralAI).
 - Add an interface frontend for low code applications.
 - Implement rate-limiting and token usage tracking.
 - Summarized history persisted across session to provide quick context for next session.
