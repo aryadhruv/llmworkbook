@@ -26,9 +26,9 @@ def main():
         system_prompt="Process these Data rows as per the provided prompt",
         options={
             "url": "http://localhost:11434",
-            "model_name": "codellama:code",
+            "model": "llama2-uncensored:latest",
             "options": {
-                "temperature": 0
+                "temperature": 10.28
             },
         },
     )
@@ -44,7 +44,10 @@ def main():
         async_mode=True
     )
 
-    print("DataFrame with LLM responses:\n", updated_df)
+    with pd.option_context('display.max_rows', None, 'display.max_columns', None):
+        print("DataFrame with LLM responses:\n", updated_df)
+    
+    updated_df.to_excel("test.xlsx")
 
 
 if __name__ == "__main__":

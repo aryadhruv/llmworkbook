@@ -33,7 +33,6 @@ async def call_llm_openai(self, prompt: str) -> str:
         return completion.choices[0].message.content
     except (KeyError, IndexError):
         return str(completion)
-    
 
 async def call_llm_ollama(self, prompt: str, url: Optional[str]= None) -> str:
     """
@@ -58,7 +57,7 @@ async def call_llm_ollama(self, prompt: str, url: Optional[str]= None) -> str:
     # Construct the payload dynamically from self.config.options
     payload = {
         "model": self.config.options.get("model", "default-model"),  # Required
-        "prompt": prompt,
+        "prompt": str(messages),
         "stream" : False,
     }
 
@@ -71,13 +70,12 @@ async def call_llm_ollama(self, prompt: str, url: Optional[str]= None) -> str:
         if option in self.config.options:
             payload[option] = self.config.options[option]
 
-
     async with aiohttp.ClientSession() as session:
         try:
-            async with session.post(f"{url}/api/chat", json=payload) as response:
+            async with session.post(f"{url}/api/generate", json=payload) as response:
                 if response.status == 200:
                     completion = await response.json()
-                    return completion.get("choices", [{}])[0].get("message", {}).get("content", "")
+                    return completion["response"]
                 else:
                     return f"Error: {response.status}, {await response.text()}"
         except Exception as e:
