@@ -1,6 +1,6 @@
 # pylint: skip-file
 import pytest
-from unittest.mock import AsyncMock, patch
+from unittest.mock import AsyncMock
 from llmworkbook import LLMRunner, LLMConfig
 
 
@@ -68,4 +68,3 @@ async def test_provider():
     """Test handling of an unimplemented provider."""
     with pytest.raises(NotImplementedError):
         await LLMRunner(config=LLMConfig(provider="llmprovider")).run("prompt")
-

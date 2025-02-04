@@ -1,15 +1,18 @@
+# pylint: skip-file
 import pytest
-from unittest.mock import AsyncMock, MagicMock, patch
+from unittest.mock import AsyncMock, patch
 
-from ..providers import call_llm_openai, call_llm_ollama, call_llm_gpt4all 
+from ..providers import call_llm_openai, call_llm_ollama, call_llm_gpt4all
 
 
 class MockConfig:
     """Mock class to simulate the configuration object."""
+
     def __init__(self, api_key=None, system_prompt=None, options=None):
         self.api_key = api_key or "test-api-key"
         self.system_prompt = system_prompt
         self.options = options or {"model_name": "gpt-4o-mini", "temperature": 0.7}
+
 
 @pytest.mark.asyncio
 async def test_call_llm_openai():
@@ -28,6 +31,8 @@ async def test_call_llm_openai():
         response = await call_llm_openai(config, prompt)
         # Assertions
         assert response == "Mocked response text"
+
+    mock_create
 
 
 @pytest.mark.asyncio
@@ -96,7 +101,9 @@ async def test_call_llm_gpt4all():
     config = MockConfig()
     prompt = "Summarize this text."
 
-    mock_response_json = {"choices": [{"message": {"content": "Mocked GPT4ALL Response"}}]}
+    mock_response_json = {
+        "choices": [{"message": {"content": "Mocked GPT4ALL Response"}}]
+    }
 
     with patch("aiohttp.ClientSession.post") as mock_post:
         mock_session = AsyncMock()
