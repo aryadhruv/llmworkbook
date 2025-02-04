@@ -32,7 +32,7 @@ class LLMRunner:
         provider = self.config.provider.lower()
 
         if provider == "openai":
-            return await call_llm_openai(self, prompt)
+            return await call_llm_openai(self.config, prompt)
 
         if provider == "ollama":
             # Check if 'url' is defined in self.config.options
@@ -40,9 +40,9 @@ class LLMRunner:
 
             # Call the function conditionally
             if url:
-                return await call_llm_ollama(self, prompt, url=url)
+                return await call_llm_ollama(self.config, prompt, url=url)
             else:
-                return await call_llm_ollama(self, prompt)
+                return await call_llm_ollama(self.config, prompt)
 
         if provider == "gpt4all":
             # Check if 'url' is defined in self.config.options

@@ -5,7 +5,7 @@ import aiohttp
 from openai import OpenAI
 
 
-async def call_llm_openai(self, prompt: str) -> str:
+async def call_llm_openai(config, prompt: str) -> str:
     """
     Calls OpenAI's completion/chat endpoint asynchronously.
 
@@ -17,16 +17,16 @@ async def call_llm_openai(self, prompt: str) -> str:
     """
 
     messages = []
-    if self.config.system_prompt:
-        messages.append({"role": "system", "content": self.config.system_prompt})
+    if config.system_prompt:
+        messages.append({"role": "system", "content": config.system_prompt})
     messages.append({"role": "user", "content": prompt})
 
-    client = OpenAI(api_key=self.config.api_key or os.environ["OPENAI_API_KEY"])
+    client = OpenAI(api_key=config.api_key or os.environ["OPENAI_API_KEY"])
 
     completion = client.chat.completions.create(
-        model=self.config.options["model_name"] or "gpt-4o-mini",
+        model=config.options["model_name"] or "gpt-4o-mini",
         messages=messages,
-        temperature=self.config.options["temperature"],
+        temperature=config.options["temperature"],
     )
 
     try:
@@ -35,7 +35,7 @@ async def call_llm_openai(self, prompt: str) -> str:
         return str(completion)
 
 
-async def call_llm_ollama(self, prompt: str, url: Optional[str] = None) -> str:
+async def call_llm_ollama(config, prompt: str, url: Optional[str] = None) -> str:
     """
     Calls Ollama's completion/chat endpoint asynchronously.
 
@@ -48,21 +48,19 @@ async def call_llm_ollama(self, prompt: str, url: Optional[str] = None) -> str:
     """
     # Default URL if none is provided
     if url is None:
-        url = "http://localhost:11434"  # Default Ollama server URL
+        url = "http://localhost:11434"
 
     messages = []
-    if self.config.system_prompt:
-        messages.append({"role": "system", "content": self.config.system_prompt})
+    if config.system_prompt:
+        messages.append({"role": "system", "content": config.system_prompt})
     messages.append({"role": "user", "content": prompt})
 
-    # Construct the payload dynamically from self.config.options
     payload = {
-        "model": self.config.options.get("model", "default-model"),  # Required
+        "model": config.options.get("model", "default-model"),
         "prompt": str(messages),
         "stream": False,
     }
 
-    # Add all other valid options from self.config.options to the payload
     valid_options = [
         "suffix",
         "images",
@@ -76,8 +74,8 @@ async def call_llm_ollama(self, prompt: str, url: Optional[str] = None) -> str:
         "context",
     ]
     for option in valid_options:
-        if option in self.config.options:
-            payload[option] = self.config.options[option]
+        if option in config.options:
+            payload[option] = config.options[option]
 
     async with aiohttp.ClientSession() as session:
         try:
@@ -91,7 +89,7 @@ async def call_llm_ollama(self, prompt: str, url: Optional[str] = None) -> str:
             return f"Exception: {str(e)}"
 
 
-async def call_llm_gpt4all(self, prompt: str, url: Optional[str] = None) -> str:
+async def call_llm_gpt4all(config, prompt: str, url: Optional[str] = None) -> str:
     """
     Calls GPT4ALL's completion/chat endpoint asynchronously.
 
@@ -107,21 +105,19 @@ async def call_llm_gpt4all(self, prompt: str, url: Optional[str] = None) -> str:
         url = "http://localhost:4891"  # Default GPT4ALL server URL
 
     messages = []
-    if self.config.system_prompt:
-        messages.append({"role": "system", "content": self.config.system_prompt})
+    if config.system_prompt:
+        messages.append({"role": "system", "content": config.system_prompt})
     messages.append({"role": "user", "content": prompt})
 
-    # Construct the payload dynamically from self.config.options
     payload = {
-        "model": self.config.options.get("model", "default-model"),  # Required
+        "model": config.options.get("model", "default-model"),
         "messages": messages,
     }
 
-    # Add all other valid options from self.config.options to the payload
     valid_options = ["max_tokens", "temperature"]
     for option in valid_options:
-        if option in self.config.options:
-            payload[option] = self.config.options[option]
+        if option in config.options:
+            payload[option] = config.options[option]
 
     print(payload)
     async with aiohttp.ClientSession() as session:
