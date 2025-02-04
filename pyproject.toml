@@ -1,11 +1,11 @@
 [tool.poetry]
 name = "llmworkbook"
-version = "0.1.6"
+version = "0.1.7"
 description = "Effortlessly harness the power of LLMs on Excel and DataFrames—seamless, smart, and efficient!"
 authors = ["dhruv <dhruv166arya@gmail.com>"]
 license = "MIT"
 readme = "README.md"
-keywords = ["LLM", "DataFrame", "Excel Workbook", "Excel", "CSV", "OpenAI", "Python", "async"]
+keywords = ["LLM", "DataFrame", "Excel Workbook", "Excel", "CSV", "OpenAI", "Ollama", "Gpt4all", "Python", "async"]
 classifiers = [
     "Intended Audience :: Developers",
     "License :: Freeware",
