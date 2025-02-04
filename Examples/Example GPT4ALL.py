@@ -1,5 +1,5 @@
 """
-Example usage script for OpenAI API endpoint.
+Example usage script for Ollama API endpoint.
 """
 
 import pandas as pd
@@ -23,12 +23,12 @@ def main():
 
     # 2. Create an LLM configuration
     config = LLMConfig(
-        provider="openai",
+        provider="gpt4all",
         system_prompt="Process these Data rows as per the provided prompt",
         options={
-            "model_name": "gpt-4o-mini",
-            "temperature": 1,
-            "max_tokens": 1024,
+            "url": "http://localhost:4891",
+            "model": "Mistral Instruct",
+            "options": {"max_tokens": 50, "temperature": 0.28},
         },
     )
 

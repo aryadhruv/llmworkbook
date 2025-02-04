@@ -1,5 +1,5 @@
 """
-Example usage script for OpenAI API endpoint.
+Example usage script for Ollama API endpoint.
 """
 
 import pandas as pd
@@ -23,12 +23,12 @@ def main():
 
     # 2. Create an LLM configuration
     config = LLMConfig(
-        provider="openai",
+        provider="ollama",
         system_prompt="Process these Data rows as per the provided prompt",
         options={
-            "model_name": "gpt-4o-mini",
-            "temperature": 1,
-            "max_tokens": 1024,
+            "url": "http://localhost:11434",
+            "model": "llama2-uncensored:latest",
+            "options": {"temperature": 0.28},
         },
     )
 
@@ -41,7 +41,10 @@ def main():
         prompt_column="prompt_text", response_column="llm_response", async_mode=True
     )
 
-    print("DataFrame with LLM responses:\n", updated_df)
+    with pd.option_context("display.max_rows", None, "display.max_columns", None):
+        print("DataFrame with LLM responses:\n", updated_df)
+
+    updated_df.to_excel("test.xlsx")
 
 
 if __name__ == "__main__":

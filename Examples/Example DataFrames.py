@@ -8,13 +8,17 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+
 def main():
     """
     Example usage of WrapDataFrame with a pandas DataFrame.
     """
     # 1. Load a pandas DataFrame from a source
     df = pd.read_excel("sample dataset.csv")
-    wrapper = WrapDataFrame(df, prompt_column="prompt",)
+    wrapper = WrapDataFrame(
+        df,
+        prompt_column="prompt",
+    )
     wrapped_df = wrapper.wrap()
 
     # 2. Create an LLM configuration
@@ -34,12 +38,11 @@ def main():
 
     # 4. Add LLM responses to the DataFrame
     updated_df = integrator.add_llm_responses(
-        prompt_column="wrapped_output",
-        response_column="llm_response",
-        async_mode=True
+        prompt_column="wrapped_output", response_column="llm_response", async_mode=True
     )
 
     print("Updated DataFrame with LLM responses (DataFrame):\n", updated_df)
+
 
 if __name__ == "__main__":
     main()

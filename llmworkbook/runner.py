@@ -2,12 +2,9 @@
 Runner module to handle the actual LLM call.
 """
 
-import os
-
-from openai import OpenAI
-
 from .config import LLMConfig
 from .utils import sync_to_async
+from .providers import call_llm_ollama, call_llm_openai, call_llm_gpt4all
 
 
 class LLMRunner:
@@ -22,35 +19,6 @@ class LLMRunner:
         """
         self.config = config
 
-    async def _call_llm_openai(self, prompt: str) -> str:
-        """
-        Calls OpenAI's completion/chat endpoint asynchronously.
-
-        Args:
-            prompt (str): The user prompt to send to the LLM.
-
-        Returns:
-            str: The LLM response text.
-        """
-
-        messages = []
-        if self.config.system_prompt:
-            messages.append({"role": "system", "content": self.config.system_prompt})
-        messages.append({"role": "user", "content": prompt})
-
-        client = OpenAI(api_key=self.config.api_key or os.environ["OPENAI_API_KEY"])
-
-        completion = client.chat.completions.create(
-            model=self.config.options["model_name"] or "gpt-4o-mini",
-            messages=messages,
-            temperature=self.config.options["temperature"],
-        )
-
-        try:
-            return completion.choices[0].message.content
-        except (KeyError, IndexError):
-            return str(completion)
-
     async def run(self, prompt: str) -> str:
         """
         Entry point for calling any LLM provider.
@@ -64,7 +32,28 @@ class LLMRunner:
         provider = self.config.provider.lower()
 
         if provider == "openai":
-            return await self._call_llm_openai(prompt)
+            return await call_llm_openai(self.config, prompt)
+
+        if provider == "ollama":
+            # Check if 'url' is defined in self.config.options
+            url = self.config.options.get("url")
+
+            # Call the function conditionally
+            if url:
+                return await call_llm_ollama(self.config, prompt, url=url)
+            else:
+                return await call_llm_ollama(self.config, prompt)
+
+        if provider == "gpt4all":
+            # Check if 'url' is defined in self.config.options
+            url = self.config.options.get("url")
+
+            # Call the function conditionally
+            if url:
+                return await call_llm_gpt4all(self, prompt, url=url)
+            else:
+                return await call_llm_gpt4all(self, prompt)
+
         raise NotImplementedError(f"Provider {provider} is not supported yet.")
 
     @sync_to_async
