@@ -28,7 +28,7 @@ def main():
         options={
             "url": "http://localhost:11434",
             "model": "llama2-uncensored:latest",
-            "options": {"temperature": 10.28},
+            "options": {"temperature": 0.28},
         },
     )
 
