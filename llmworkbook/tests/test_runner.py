@@ -28,23 +28,21 @@ async def test_llmrunner_initialization(mock_config):
 
 @pytest.mark.asyncio
 async def test_run(mock_config):
-    """Test the run method with the OpenAI provider."""
+    """Test the synchronous wrapper for the run method."""
     # Initialize the runner
     runner = LLMRunner(config=mock_config)
 
-    # Mock _call_llm_openai
-    runner._call_llm_openai = AsyncMock(return_value="LLM response for prompt")
+    # Mock the async run method
+    runner.run = AsyncMock(return_value="LLM response for prompt")
 
-    # Call run
+    # Call run_sync
     result = await runner.run("Explain Newton's first law in simple terms.")
 
     # Assert the result
     assert result == "LLM response for prompt"
 
-    # Verify the internal method call
-    runner._call_llm_openai.assert_called_once_with(
-        "Explain Newton's first law in simple terms."
-    )
+    # Verify the run method call
+    runner.run.assert_called_once_with("Explain Newton's first law in simple terms.")
 
 
 def test_run_sync(mock_config):
