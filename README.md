@@ -1,8 +1,9 @@
 # **LLMWorkbook**
 
 [![CodeQL Advanced](https://github.com/aryadhruv/LLMWorkbook/actions/workflows/codeql.yml/badge.svg)](https://github.com/aryadhruv/LLMWorkbook/actions/workflows/codeql.yml)
-[![Quality Check](https://github.com/aryadhruv/LLMWorkbook/actions/workflows/Quality%20Check.yml/badge.svg)](https://github.com/aryadhruv/LLMWorkbook/actions/workflows/Quality%20Check.yml)
-[![test](https://github.com/aryadhruv/LLMWorkbook/actions/workflows/test.yml/badge.svg)](https://github.com/aryadhruv/LLMWorkbook/actions/workflows/test.yml)
+[![Quality Scans](https://github.com/aryadhruv/LLMWorkbook/actions/workflows/Quality%20Check.yml/badge.svg)](https://github.com/aryadhruv/LLMWorkbook/actions/workflows/Quality%20Check.yml)
+[![Tests](https://github.com/aryadhruv/LLMWorkbook/actions/workflows/test.yml/badge.svg)](https://github.com/aryadhruv/LLMWorkbook/actions/workflows/test.yml)
+[![PyPI Downloads](https://static.pepy.tech/badge/llmworkbook)](https://pepy.tech/projects/llmworkbook)
 <img src="https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json" alt="Ruff linter" href="https://github.com/astral-sh/ruff" />
 <img src="https://img.shields.io/badge/linting-pylint-yellowgreen" alt="Pylint linter" href="https://github.com/pylint-dev/pylint" />  <img src="https://img.shields.io/badge/code%20style-black-000000.svg" alt="Code Style" href="https://github.com/ambv/black" />
 
