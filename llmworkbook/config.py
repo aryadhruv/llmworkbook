@@ -27,13 +27,13 @@ class LLMConfig:  # pylint: disable=too-few-public-methods
             api_key (str): The API key to authenticate requests to the LLM provider.
             system_prompt (str, optional): System-level prompt to guide the LLM.
             options (Dict, optional): Additional parameters for the model configuration, including:
-                - model_name (str): Name or version of the LLM model. Default is "gpt-4o-mini".
+                - model (str): Name or version of the LLM model. Default is "gpt-4o-mini".
                 - temperature (float): Sampling temperature to control randomness. Default is 0.7.
                 - max_tokens (int): Maximum tokens for the output. Default is 1024.
         """
         # Default options
         default_options = {
-            "model_name": "gpt-4o-mini",
+            "model": "gpt-4o-mini",
             "temperature": 0.7,
             "max_tokens": 1024,
         }

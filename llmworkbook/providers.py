@@ -24,7 +24,7 @@ async def call_llm_openai(config, prompt: str) -> str:
     client = OpenAI(api_key=config.api_key or os.environ["OPENAI_API_KEY"])
 
     completion = client.chat.completions.create(
-        model=config.options["model_name"] or "gpt-4o-mini",
+        model=config.options["model"] or "gpt-4o-mini",
         messages=messages,
         temperature=config.options["temperature"],
     )

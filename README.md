@@ -42,9 +42,9 @@ These wrapper methods can handle popular data sources like Excel (xlsx), CSV, Pa
 *See Examples for details. - [Github - Examples](https://github.com/aryadhruv/LLMWorkbook/tree/main/Examples)*
 
 ### Providers Supported -
-* OpenAI
-* Ollama
-* GPT4ALL
+* [OpenAI](docs/Providers/OpenAI.md)
+* [Gpt4All](docs/Providers/Gpt4All.md)
+* [Ollama](docs/Providers/Ollama.md)
 
 
 ---
@@ -70,7 +70,7 @@ config = LLMConfig(
     provider="openai",
     system_prompt="Process these Data rows as per the provided prompt",
     options={
-        "model_name": "gpt-4o-mini",
+        "model": "gpt-4o-mini",
         "temperature": 1,
         "max_tokens": 1024,
     },
@@ -98,51 +98,6 @@ updated_df = integrator.add_llm_responses(
 Example code is available in the Git Repository for easy reference.
 
 ---
-
-### **CLI Usage**
-
-`LLMWorkbook` provides a command-line interface (**CLI**) for wrapping data and testing LLM connectivity. This makes it easy to process DataFrames, arrays, and prompt lists without writing additional code.
-
-#### **Installation**
-The CLI is installed automatically when you install `LLMWorkbook` via Poetry:
-
-```bash
-poetry install
-```
-
-Once installed, you can use the `llmWorkbook` command.
-
-#### **Available Commands**
-```bash
-llmworkbook wrap_dataframe <input_file> <output_file> <prompt_column> <data_columns>
-llmworkbook wrap_array <input_file> <output_file> <prompt_index> <data_indices>
-llmworkbook wrap_prompts <prompts_file> <output_file>
-llmworkbook test <api_key> [--model_name gpt-3.5-turbo]
-```
-
-#### **Examples**
-- **Wrap a DataFrame:**
-  ```bash
-  llmworkbook wrap_dataframe sample.xlsx wrapped_output.csv prompt "Reviews,Language"
-  ```
-
-- **Wrap a 2D Array (JSON file input):**
-  ```bash
-  llmworkbook wrap_array array_data.json wrapped_output.csv 0 1,2
-  ```
-
-- **Wrap a List of Prompts:**
-  ```bash
-  llmworkbook wrap_prompts prompts.txt wrapped_output.csv
-  ```
-
-- **Test LLM Connectivity:**
-  ```bash
-  llmworkbook test YOUR_API_KEY --model_name gpt-4
-  ```
-
-This CLI allows you to quickly process data and validate your LLM connection without modifying code. 🚀
-
 ## **Future Roadmap**
 
 - Add support for more LLM providers (Anthropic Claude, Google VertexAI, Cohere, Groq, MistralAI).
@@ -151,11 +106,25 @@ This CLI allows you to quickly process data and validate your LLM connection wit
 - Summarized history persisted across session to provide quick context for next session.
 
 
+## Extended Documentation
+
+Detailed documentation for each module is available in the [Documentation](docs) file.
+- [Wrapping Data](docs/wrapping.md) file.
+- [Providers](docs/Providers/) -
+    [OpenAI](docs/Providers/OpenAI.md)
+    [Gpt4All](docs/Providers/Gpt4All.md)
+    [Ollama](docs/Providers/Ollama.md)
+- [CLI Useage](docs/CLI%20Usage.md) file.
+
+
+
 ## **Links**
 
 [Homepage](https://github.com/aryadhruv/LLMWorkbook)
 [Repository](https://github.com/aryadhruv/LLMWorkbook)
-[Documentation](https://github.com/aryadhruv/LLMWorkbook)
+[Documentation](https://github.com/aryadhruv/LLMWorkbook/tree/main/Docs)
+[Examples](https://github.com/aryadhruv/LLMWorkbook/tree/main/Examples)
 [Bug Tracker](https://github.com/aryadhruv/LLMWorkbook/issues)
 [Issues](https://github.com/aryadhruv/LLMWorkbook/issues)
+
 

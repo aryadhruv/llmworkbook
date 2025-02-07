@@ -8,7 +8,7 @@ def test_llm_config_initialization():
         provider="openai",
         system_prompt="You are a helpful assistant.",
         options={
-            "model_name": "gpt-3.5-turbo",
+            "model": "gpt-3.5-turbo",
             "temperature": 0.7,
             "max_tokens": 1000,
         },
@@ -16,7 +16,7 @@ def test_llm_config_initialization():
 
     # Assert
     assert config.provider == "openai"
-    assert config.options["model_name"] == "gpt-3.5-turbo"
+    assert config.options["model"] == "gpt-3.5-turbo"
     assert config.system_prompt == "You are a helpful assistant."
     assert config.options["temperature"] == 0.7
     assert config.options["max_tokens"] == 1000
@@ -28,7 +28,7 @@ def test_llm_config_to_dict():
         provider="openai",
         system_prompt="You are a helpful assistant.",
         options={
-            "model_name": "gpt-3.5-turbo",
+            "model": "gpt-3.5-turbo",
             "temperature": 0.7,
             "max_tokens": 1000,
         },
@@ -39,7 +39,7 @@ def test_llm_config_to_dict():
     assert results["provider"] == "openai"
     assert results["system_prompt"] == "You are a helpful assistant."
     assert results["options"] == {
-        "model_name": "gpt-3.5-turbo",
+        "model": "gpt-3.5-turbo",
         "temperature": 0.7,
         "max_tokens": 1000,
     }
