@@ -236,7 +236,6 @@ class WrapDataFrame(BaseLLMWrapper):
             return f"<data>\n{cells_str}\n</data>"
 
 
-
 class WrapDataArray(BaseLLMWrapper):
     """
     A class to wrap 2D array-like data for LLM consumption.
