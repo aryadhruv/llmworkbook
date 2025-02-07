@@ -11,7 +11,7 @@ class MockConfig:
     def __init__(self, api_key=None, system_prompt=None, options=None):
         self.api_key = api_key or "test-api-key"
         self.system_prompt = system_prompt
-        self.options = options or {"model_name": "gpt-4o-mini", "temperature": 0.7}
+        self.options = options or {"model": "gpt-4o-mini", "temperature": 0.7}
 
 
 @pytest.mark.asyncio
