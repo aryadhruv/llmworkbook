@@ -42,9 +42,9 @@ These wrapper methods can handle popular data sources like Excel (xlsx), CSV, Pa
 *See Examples for details. - [Github - Examples](https://github.com/aryadhruv/LLMWorkbook/tree/main/Examples)*
 
 ### Providers Supported -
-* OpenAI
-* Ollama
-* GPT4ALL
+* [OpenAI](docs/Providers/OpenAI.md)
+* [Gpt4All](docs/Providers/Gpt4All.md)
+* [Ollama](docs/Providers/Ollama.md)
 
 
 ---
@@ -151,6 +151,16 @@ This CLI allows you to quickly process data and validate your LLM connection wit
 - Summarized history persisted across session to provide quick context for next session.
 
 
+## Extended Documentation
+
+Detailed documentation for each module is available in the [Documentation](docs) file.
+- [Wrapping Data](docs/wrapping.md) file.
+- [Providers](docs/Providers/) -
+-- [OpenAI](docs/Providers/OpenAI.md)
+-- [Gpt4All](docs/Providers/Gpt4All.md)
+-- [Ollama](docs/Providers/Ollama.md)
+
+
 ## **Links**
 
 [Homepage](https://github.com/aryadhruv/LLMWorkbook)
@@ -158,4 +168,5 @@ This CLI allows you to quickly process data and validate your LLM connection wit
 [Documentation](https://github.com/aryadhruv/LLMWorkbook)
 [Bug Tracker](https://github.com/aryadhruv/LLMWorkbook/issues)
 [Issues](https://github.com/aryadhruv/LLMWorkbook/issues)
+
 
