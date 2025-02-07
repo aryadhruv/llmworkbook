@@ -142,6 +142,9 @@ class WrapDataFrame(BaseLLMWrapper):
         df (DataFrame): The input DataFrame.
         prompt_column (str): The column containing prompt data.
         data_columns (Optional[List[str]]): The columns containing the data to wrap.
+        use_column_header (bool): If True, use individual column headers as cell tags.
+        column_header_index (int): The starting index from which to use column headers for wrapping.
+                                   Cells before this index will use the default <cell> tag.
     """
 
     def __init__(
@@ -149,6 +152,8 @@ class WrapDataFrame(BaseLLMWrapper):
         df: DataFrame,
         prompt_column: str = "prompt_column",
         data_columns: Optional[List[str]] = None,
+        use_column_header: bool = False,
+        column_header_index: int = 0,
     ) -> None:
         """
         Initialize the WrapDataFrame object.
@@ -157,10 +162,15 @@ class WrapDataFrame(BaseLLMWrapper):
             df (DataFrame): The input DataFrame.
             prompt_column (str): The column containing prompt data.
             data_columns (Optional[List[str]]): The columns containing the data to wrap.
+            use_column_header (bool): If True, wrap each cell with its corresponding column header.
+            column_header_index (int): The index from which column headers should be used as tags.
+                                       Cells before this index will use the default <cell> tag.
         """
         self.df = df
         self.prompt_column = prompt_column
         self.data_columns = data_columns or []
+        self.use_column_header = use_column_header
+        self.column_header_index = column_header_index
         self._validate_columns()
 
     def _validate_columns(self) -> None:
@@ -201,6 +211,30 @@ class WrapDataFrame(BaseLLMWrapper):
         Return the prompt column as a Series.
         """
         return self.df[self.prompt_column]
+
+    def _wrap_data_row(self, row: Series) -> str:
+        """
+        Wrap a row of data into the <data> tag with cells wrapped either in generic <cell> tags
+        or in individual column header tags, based on the use_column_header flag.
+
+        Args:
+            row (Series): A single row of data.
+
+        Returns:
+            str: The wrapped data row.
+        """
+        if row.empty:
+            return "<data></data>"
+        if not self.use_column_header:
+            return super()._wrap_data_row(row)
+        else:
+            wrapped_cells = []
+            for idx, (col, value) in enumerate(row.items()):
+                tag = col if idx >= self.column_header_index else "cell"
+                wrapped_cells.append(f"  <{tag}>{value}</{tag}>")
+            cells_str = "\n".join(wrapped_cells)
+            return f"<data>\n{cells_str}\n</data>"
+
 
 
 class WrapDataArray(BaseLLMWrapper):
