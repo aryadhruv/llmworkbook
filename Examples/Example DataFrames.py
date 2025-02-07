@@ -18,6 +18,7 @@ def main():
     wrapper = WrapDataFrame(
         df,
         prompt_column="prompt",
+        use_column_header=True
     )
     wrapped_df = wrapper.wrap()
 
