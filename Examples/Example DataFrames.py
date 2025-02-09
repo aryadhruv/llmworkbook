@@ -15,11 +15,7 @@ def main():
     """
     # 1. Load a pandas DataFrame from a source
     df = pd.read_excel("sample dataset.csv")
-    wrapper = WrapDataFrame(
-        df,
-        prompt_column="prompt",
-        use_column_header=True
-    )
+    wrapper = WrapDataFrame(df, prompt_column="prompt", use_column_header=True)
     wrapped_df = wrapper.wrap()
 
     # 2. Create an LLM configuration
