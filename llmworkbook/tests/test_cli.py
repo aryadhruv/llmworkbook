@@ -2,7 +2,7 @@
 import subprocess
 import pytest
 import os
-from cli.cli import show_version
+from ..cli.cli import show_version
 
 
 @pytest.fixture
@@ -103,9 +103,8 @@ def test_cli_llm_connection(mocker):
 def test_cli_version():
     """Test CLI version command."""
     result = subprocess.run(["llmworkbook", "version"], capture_output=True, text=True)
-
     assert result.returncode == 0
-    assert ("LLMWORKBOOK version: %s", show_version()) in result.stdout
+    assert "LLMWORKBOOK version: %s", show_version() in result.stdout
 
 
 def test_cli_help():
