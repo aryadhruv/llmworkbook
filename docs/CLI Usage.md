@@ -17,6 +17,7 @@ llmworkbook wrap_dataframe <input_file> <output_file> <prompt_column> <data_colu
 llmworkbook wrap_array <input_file> <output_file> <prompt_index> <data_indices>
 llmworkbook wrap_prompts <prompts_file> <output_file>
 llmworkbook test <api_key> [--model_name gpt-3.5-turbo]
+llmworkbook version
 ```
 
 #### **Examples**
@@ -40,4 +41,8 @@ llmworkbook test <api_key> [--model_name gpt-3.5-turbo]
   llmworkbook test YOUR_API_KEY --model_name gpt-4
   ```
 
+- **See Version of package:**
+  ```bash
+  llmworkbook version
+  ```
 This CLI allows you to quickly process data and validate your LLM connection without modifying code. 🚀

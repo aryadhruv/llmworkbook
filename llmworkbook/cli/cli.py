@@ -14,24 +14,29 @@ Commands:
     - wrap_array: Wraps a 2D array into a structured format.
     - wrap_prompts: Wraps a list of prompts.
     - test: Tests the LLM connection using a sample prompt.
+    - version: Shows the current version of the LLMWORKBOOK package.
 """
 
 import argparse
 import json
-import pandas as pd
+from pathlib import Path
+
 import numpy as np
+import pandas as pd
+import toml
+
 from llmworkbook import (
-    WrapDataFrame,
-    WrapDataArray,
-    WrapPromptList,
     LLMConfig,
     LLMRunner,
+    WrapDataArray,
+    WrapDataFrame,
+    WrapPromptList,
 )
 
 
 def wrap_dataframe(
     input_file: str, output_file: str, prompt_column: str, data_columns: str
-):
+) -> None:
     """
     Wraps a pandas DataFrame into a structured format.
 
@@ -41,11 +46,13 @@ def wrap_dataframe(
         prompt_column (str): Column name to be used as the prompt.
         data_columns (str): Comma-separated column names for wrapping data.
     """
+    # Read input file depending on file extension
     df = (
         pd.read_csv(input_file)
         if input_file.endswith(".csv")
         else pd.read_excel(input_file)
     )
+    # Initialize the wrapper with the DataFrame and desired columns
     wrapper = WrapDataFrame(
         df, prompt_column=prompt_column, data_columns=data_columns.split(",")
     )
@@ -54,7 +61,9 @@ def wrap_dataframe(
     print(f"✅ Wrapped DataFrame saved to {output_file}")
 
 
-def wrap_array(input_file: str, output_file: str, prompt_index: str, data_indices: str):
+def wrap_array(
+    input_file: str, output_file: str, prompt_index: str, data_indices: str
+) -> None:
     """
     Wraps a 2D array from a JSON file into a structured format.
 
@@ -76,7 +85,7 @@ def wrap_array(input_file: str, output_file: str, prompt_index: str, data_indice
     print(f"✅ Wrapped Array saved to {output_file}")
 
 
-def wrap_prompts(prompts_file: str, output_file: str):
+def wrap_prompts(prompts_file: str, output_file: str) -> None:
     """
     Wraps a list of prompts into a structured format.
 
@@ -92,7 +101,7 @@ def wrap_prompts(prompts_file: str, output_file: str):
     print(f"✅ Wrapped Prompts saved to {output_file}")
 
 
-def test_llm(api_key: str, model_name: str = "gpt-3.5-turbo"):
+def test_llm(api_key: str, model_name: str = "gpt-3.5-turbo") -> None:
     """
     Tests the LLM connection by sending a sample prompt.
 
@@ -124,7 +133,32 @@ def test_llm(api_key: str, model_name: str = "gpt-3.5-turbo"):
         print(f"Error: {e}")
 
 
-def main():
+def show_version() -> str:
+    """
+    Retrieves the version of the LLMWORKBOOK package from pyproject.toml.
+
+    Returns:
+        str: The version number if found; otherwise, "unknown".
+    """
+    version = "unknown"
+    # Adopt path to your pyproject.toml (assumes it's in the parent directory of this script)
+    pyproject_toml_file = Path(__file__).parent / "pyproject.toml"
+    if pyproject_toml_file.exists() and pyproject_toml_file.is_file():
+        data = toml.load(pyproject_toml_file)
+        # check project.version first
+        if "project" in data and "version" in data["project"]:
+            version = data["project"]["version"]
+        # if not, check tool.poetry.version
+        elif (
+            "tool" in data
+            and "poetry" in data["tool"]
+            and "version" in data["tool"]["poetry"]
+        ):
+            version = data["tool"]["poetry"]["version"]
+    return version
+
+
+def main() -> None:
     """
     Main function to handle CLI arguments and execute respective commands.
     """
@@ -133,7 +167,7 @@ def main():
     )
     subparsers = parser.add_subparsers(dest="command", help="Sub-command help")
 
-    # Wrap DataFrame
+    # Wrap DataFrame command
     parser_df = subparsers.add_parser("wrap_dataframe", help="Wrap a pandas DataFrame")
     parser_df.add_argument("input_file", help="Path to the input file (CSV/Excel)")
     parser_df.add_argument("output_file", help="Path to save the wrapped output (CSV)")
@@ -142,7 +176,7 @@ def main():
         "data_columns", help="Comma-separated column names for the data to wrap"
     )
 
-    # Wrap Array
+    # Wrap Array command
     parser_array = subparsers.add_parser("wrap_array", help="Wrap a 2D array")
     parser_array.add_argument(
         "input_file", help="Path to the JSON file with array data"
@@ -157,7 +191,7 @@ def main():
         "data_indices", help="Comma-separated indices for data columns"
     )
 
-    # Wrap Prompts
+    # Wrap Prompts command
     parser_prompts = subparsers.add_parser(
         "wrap_prompts", help="Wrap a list of prompts"
     )
@@ -168,7 +202,7 @@ def main():
         "output_file", help="Path to save the wrapped output (CSV)"
     )
 
-    # Test LLM Connection
+    # Test LLM Connection command
     parser_test = subparsers.add_parser(
         "test", aliases=["t"], help="Test LLM connection with a sample prompt"
     )
@@ -177,6 +211,11 @@ def main():
         "--model_name",
         default="gpt-3.5-turbo",
         help="Optional: LLM model name (default: gpt-3.5-turbo)",
+    )
+
+    # Show package version command
+    subparsers.add_parser(
+        "version", aliases=["v"], help="See the version of the LLMWORKBOOK package"
     )
 
     args = parser.parse_args()
@@ -194,5 +233,11 @@ def main():
         wrap_prompts(args.prompts_file, args.output_file)
     elif args.command in ["test", "t"]:
         test_llm(args.api_key, args.model_name)
+    elif args.command in ["version", "v"]:
+        print("LLMWORKBOOK version: %s", show_version())
     else:
         parser.print_help()
+
+
+if __name__ == "__main__":
+    main()
