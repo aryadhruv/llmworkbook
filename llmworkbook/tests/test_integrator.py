@@ -1,5 +1,5 @@
 # pylint: skip-file
-from llmworkbook import LLMDataFrameIntegrator, LLMRunner
+from llmworkbook import LLMConfig, LLMDataFrameIntegrator, LLMRunner
 import pandas as pd
 import pytest
 from unittest.mock import AsyncMock, MagicMock
@@ -15,11 +15,24 @@ def sample_dataframe():
         }
     )
 
+@pytest.fixture
+def mock_config():
+    """Fixture for creating an LLMConfig object."""
+    return LLMConfig(
+        provider="openai",
+        api_key="test-api-key",
+        system_prompt="Process these Data rows as per the provided prompt",
+        options={
+            "model_name": "gpt-4o-mini",
+            "temperature": 1,
+            "max_tokens": 1024,
+        },
+    )
 
 @pytest.fixture
-def mock_runner():
+def mock_runner(mock_config):
     """Fixture to create a mock LLM runner."""
-    mock = MagicMock(spec=LLMRunner)
+    mock = MagicMock(spec=LLMRunner(config=mock_config))
     mock.run_sync.side_effect = lambda x: f"Response to: {x}"
     mock.run = AsyncMock(side_effect=lambda x: f"Async response to: {x}")
     return mock
