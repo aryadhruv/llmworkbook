@@ -27,7 +27,7 @@ def main():
         options={
             "model_name": "gpt-4o-mini",
             "temperature": 1,
-            "max_tokens": 1,  # Ensure token limit is set
+            "max_tokens": 2048,  # Ensure token limit is set
         },
     )
 
@@ -45,13 +45,7 @@ def main():
 
     print("Updated DataFrame with LLM responses:\n", updated_df)
 
-    # 6. Retrieve and print summarized history
-    summary_history = integrator.get_summary_history()
-    print("\nSummarized History of Batches:")
-    for idx, summary in enumerate(summary_history, 1):
-        print(f"Batch {idx}: {summary}")
-
-    # 7. Save the updated DataFrame to an Excel file
+    # 8. Save the updated DataFrame to an Excel file
     updated_df.to_excel("processed_dataset.xlsx", index=False)
     print("\nProcessed DataFrame saved to 'processed_dataset.xlsx'")
 
